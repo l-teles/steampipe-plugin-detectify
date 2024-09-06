@@ -6,7 +6,6 @@ import (
 	"time"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
-    "os"
 )
 
 
@@ -54,25 +53,6 @@ func listFindings(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
     paginatedResponse, err := paginatedResponse(ctx, d, endpoint)
     if err != nil {
         plugin.Logger(ctx).Error("detectify_finding.listFindings", "connection_error", err)
-        return nil, err
-    }
-
-    // Write paginatedResponse to a file for debugging
-    file, err := os.Create("/Users/luisteles/Downloads/paginated_response1.json")
-    if err != nil {
-        plugin.Logger(ctx).Error("Failed to create file: %v", err)
-        return nil, err
-    }
-    defer file.Close()
-
-    data, err := json.MarshalIndent(paginatedResponse, "", "  ")
-    if err != nil {
-        plugin.Logger(ctx).Error("Failed to marshal paginatedResponse: %v", err)
-        return nil, err
-    }
-
-    if _, err := file.Write(data); err != nil {
-        plugin.Logger(ctx).Error("Failed to write to file: %v", err)
         return nil, err
     }
 

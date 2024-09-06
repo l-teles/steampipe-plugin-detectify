@@ -12,6 +12,7 @@ import (
     "os"
     "time"
 	"encoding/json"
+	"net/url"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 
@@ -156,4 +157,135 @@ func paginatedResponse(ctx context.Context, d *plugin.QueryData, endpoint string
 	}
 
 	return result, nil
+}
+
+
+func connectV3(ctx context.Context, d *plugin.QueryData, endpoint string, params map[string]string) (string, error) {
+	var baseUrl, tokenv3 string
+
+	// Prefer config options given in Steampipe
+	detectifyConfig := GetConfig(d.Connection)
+
+	baseUrl = os.Getenv("DETECTIFY_URL")
+	if detectifyConfig.BaseUrl != nil {
+		baseUrl = *detectifyConfig.BaseUrl
+	}
+
+	tokenv3 = os.Getenv("DETECTIFY_API_TOKEN_V3")
+	if detectifyConfig.Tokenv3 != nil {
+		tokenv3 = *detectifyConfig.Tokenv3
+	}
+
+    // Create a new HTTP client
+    client := &http.Client{}
+
+    // Create a new request
+    req, err := http.NewRequest("GET", baseUrl+endpoint, nil)
+    if err != nil {
+        return "", fmt.Errorf("failed to create request: %v", err)
+    }
+
+    // Set the necessary request headers
+    req.Header.Set("Content-Type", "application/json")
+    req.Header.Set("Authorization", tokenv3)
+
+    // Set query parameters
+    queryParams := req.URL.Query()
+    for key, value := range params {
+        queryParams.Add(key, value)
+    }
+    req.URL.RawQuery = queryParams.Encode()
+
+	// Log the request details to a file
+	logFile, err := os.Create("/Users/luisteles/Downloads/debug.txt")
+	if err != nil {
+		return "", fmt.Errorf("failed to create log file: %v", err)
+	}
+	defer logFile.Close()
+
+	logFile.WriteString(fmt.Sprintf("Request URL: %s\n", req.URL.String()))
+	logFile.WriteString(fmt.Sprintf("Request Headers: %v\n", req.Header))
+	logFile.WriteString(fmt.Sprintf("Request Method: %s\n", req.Method))
+
+
+
+    // Execute the request
+    resp, err := client.Do(req)
+    if err != nil {
+		plugin.Logger(ctx).Error("Failed to create request: %v", err)
+        return "", fmt.Errorf("failed to execute request: %v", err)
+    }
+    defer resp.Body.Close()
+
+    // Check the response status code
+    if resp.StatusCode != 200 {
+		plugin.Logger(ctx).Error("utils.connectV3 -> API returned HTTP status %s", resp.Status)
+        return "", fmt.Errorf("utils.connectV3 -> API returned HTTP status %s", resp.Status)
+    }
+
+    // Read and parse the response body
+    body, err := io.ReadAll(resp.Body)
+    if err != nil {
+		plugin.Logger(ctx).Error("utils.connectV3 -> Failed to read response body: %v", err)
+        return "", fmt.Errorf("utils.connectV3 -> failed to read response body: %v", err)
+    }
+
+	return string(body), nil
+}
+
+func paginatedResponseV3(ctx context.Context, d *plugin.QueryData, endpoint string) ([]string, error) {
+    var paginatedResponse []interface{}
+    plugin.Logger(ctx).Info("Getting Detectify findings...")
+
+    cursor := ""
+
+    // Iteration for Pagination
+    for {
+        params := map[string]string{
+            "cursor":    cursor,
+        }
+        findingsStr, err := connectV3(ctx, d, endpoint, params)
+        if err != nil {
+            plugin.Logger(ctx).Error("utils.paginatedResponseV3", "connection_error", err)
+            return nil, err
+        }
+
+        var findings map[string]interface{}
+		if err := json.Unmarshal([]byte(findingsStr), &findings); err != nil {
+			plugin.Logger(ctx).Error("Failed to parse response body: %v", err)
+			return nil, err
+		}
+
+		paginatedResponse = append(paginatedResponse, findingsStr)
+
+        pagination, ok := findings["pagination"].(map[string]interface{})
+        if !ok {
+            break
+        }
+
+        nextURL, ok := pagination["next"].(string)
+        if !ok || nextURL == "" {
+            break
+        }
+
+        // Extract cursor from next URL
+        u, err := url.Parse(nextURL)
+        if err != nil {
+            plugin.Logger(ctx).Error("utils.paginatedResponseV3", "invalid_next_url", err)
+            return nil, err
+        }
+
+        cursor = u.Query().Get("cursor")
+        if cursor == "" {
+            break
+        }
+    }
+
+	// Convert paginatedResponse to []string
+	var result []string
+	for _, v := range paginatedResponse {
+		result = append(result, v.(string))
+	}
+
+    return result, nil
 }

@@ -117,46 +117,59 @@ func connect(ctx context.Context, d *plugin.QueryData, endpoint string, params m
 	return string(body), nil
 }
 
-func paginatedResponse(ctx context.Context, d *plugin.QueryData, endpoint string) ([]string, error) {
-	var paginatedResponse []interface{}
-	plugin.Logger(ctx).Info("Getting Detectify findings...")
+// paginatedResponse fetches paginated responses from the given endpoint.
+func paginatedResponse(ctx context.Context, d *plugin.QueryData, endpoint string, optionalParams ...map[string]string) ([]string, error) {
+    var paginatedResponse []interface{}
+    plugin.Logger(ctx).Info("Getting Detectify findings...")
 
     pageSize := 100
     markerID := ""
 
-	// Iteration for Pagination
-	for {
-		params := map[string]string{
-			"marker":    markerID,
-			"page_size": fmt.Sprintf("%d", pageSize),
-		}
-		findingsStr, err := connect(ctx, d, endpoint, params)
-		if err != nil {
-			plugin.Logger(ctx).Error("utils.paginatedResponse", "connection_error", err)
-			return nil, err
-		}
-		
-		var findings map[string]interface{}
-		if err := json.Unmarshal([]byte(findingsStr), &findings); err != nil {
-			plugin.Logger(ctx).Error("Failed to parse response body: %v", err)
-			return nil, err
-		}
+    // Set default params
+    params := map[string]string{
+        "marker":    markerID,
+        "page_size": fmt.Sprintf("%d", pageSize),
+    }
 
-		paginatedResponse = append(paginatedResponse, findingsStr)
+    // Override default params with optionalParams if provided
+    if len(optionalParams) > 0 {
+        for key, value := range optionalParams[0] {
+            params[key] = value
+        }
+    }
 
-		if !findings["has_more"].(bool) {
-			break
-		}
-		markerID = findings["next_marker"].(string)
-	}
+    // Iteration for Pagination
+    for {
+        // Update marker in params for each iteration
+        params["marker"] = markerID
 
-	// Convert paginatedResponse to []string
-	var result []string
-	for _, v := range paginatedResponse {
-		result = append(result, v.(string))
-	}
+        findingsStr, err := connect(ctx, d, endpoint, params)
+        if err != nil {
+            plugin.Logger(ctx).Error("utils.paginatedResponse", "connection_error", err)
+            return nil, err
+        }
 
-	return result, nil
+        var findings map[string]interface{}
+        if err := json.Unmarshal([]byte(findingsStr), &findings); err != nil {
+            plugin.Logger(ctx).Error("Failed to parse response body: %v", err)
+            return nil, err
+        }
+
+        paginatedResponse = append(paginatedResponse, findingsStr)
+
+        if !findings["has_more"].(bool) {
+            break
+        }
+        markerID = findings["next_marker"].(string)
+    }
+
+    // Convert paginatedResponse to []string
+    var result []string
+    for _, v := range paginatedResponse {
+        result = append(result, v.(string))
+    }
+
+    return result, nil
 }
 
 
@@ -195,19 +208,6 @@ func connectV3(ctx context.Context, d *plugin.QueryData, endpoint string, params
         queryParams.Add(key, value)
     }
     req.URL.RawQuery = queryParams.Encode()
-
-	// Log the request details to a file
-	logFile, err := os.Create("/Users/luisteles/Downloads/debug.txt")
-	if err != nil {
-		return "", fmt.Errorf("failed to create log file: %v", err)
-	}
-	defer logFile.Close()
-
-	logFile.WriteString(fmt.Sprintf("Request URL: %s\n", req.URL.String()))
-	logFile.WriteString(fmt.Sprintf("Request Headers: %v\n", req.Header))
-	logFile.WriteString(fmt.Sprintf("Request Method: %s\n", req.Method))
-
-
 
     // Execute the request
     resp, err := client.Do(req)

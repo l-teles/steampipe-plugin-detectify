@@ -9,7 +9,7 @@ import (
 
 func Plugin(ctx context.Context) *plugin.Plugin {
 	p := &plugin.Plugin{
-		Name:             "steampipe-plugin-detectify", 
+		Name:             "steampipe-plugin-detectify",
 		DefaultTransform: transform.FromGo().NullIfZero(),
 		ConnectionConfigSchema: &plugin.ConnectionConfigSchema{
 			NewInstance: ConfigInstance,
@@ -17,13 +17,14 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 		},
 		TableMap: map[string]*plugin.Table{
 			"detectify_finding":    tableFinding(ctx),
-			"detectify_ips":        tableIps(ctx),
-			"detectify_technologies":    tableTechnologies(ctx),
-			"detectify_ports":    tablePorts(ctx),
-			"detectify_breaches":    tableBreaches(ctx),
-			"detectify_assets":    tableAssets(ctx),
-			"detectify_profiles":    tableProfiles(ctx),
-			"detectify_members":    tableMembers(ctx),
+			"detectify_ip":         tableIp(ctx),
+			"detectify_technology": tableTechnology(ctx),
+			"detectify_port":       tablePort(ctx),
+			"detectify_policy":     tablePolicy(ctx),
+			"detectify_asset":      tableAsset(ctx),
+			"detectify_asset_full": tableAssetFull(ctx),
+			"detectify_profile":    tableProfile(ctx),
+			"detectify_member":     tableMember(ctx),
 		},
 	}
 	return p

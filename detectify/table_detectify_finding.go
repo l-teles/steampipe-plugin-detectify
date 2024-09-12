@@ -9,7 +9,7 @@ import (
 )
 
 
-//// TABLE DEFINITION
+// TABLE DEFINITION
 
 func tableFinding(_ context.Context) *plugin.Table {
     return &plugin.Table{
@@ -46,7 +46,7 @@ func tableFinding(_ context.Context) *plugin.Table {
 }
 
 
-//// LIST FUNCTION
+// LIST FUNCTION
 func listFindings(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
     endpoint := "/v2/vulnerabilities/"
 
@@ -67,19 +67,9 @@ func listFindings(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
             return nil, err
         }
 
-        for i, finding := range response.Findings {
+        for _, finding := range response.Findings {
             d.StreamListItem(ctx, finding)
             allFindings = append(allFindings, finding)
-        
-            // Convert finding to JSON (optional, for debugging purposes)
-            findingData, err := json.MarshalIndent(finding, "", "  ")
-            if err != nil {
-                plugin.Logger(ctx).Error("Failed to marshal finding: %v", err)
-                return nil, err
-            }
-        
-            // Optional: Log the finding data for debugging
-            plugin.Logger(ctx).Info("Finding data", "index", i, "data", string(findingData))
         }
     }
 
@@ -188,4 +178,3 @@ type Reference struct {
 type FindingsResponse struct {
     Findings []Finding `json:"vulnerabilities"`
 }
-

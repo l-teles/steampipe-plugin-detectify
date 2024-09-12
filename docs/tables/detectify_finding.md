@@ -1,7 +1,5 @@
 # Table: detectify_finding
 
-
-
 A Detectify vulnerability (or finding) is a security flaw or weakness identified by the Detectify web application security scanner or by the Detectify surface monitoring tool. 
 
 Detectify performs automated scans of web applications to uncover potential vulnerabilities that could be exploited by attackers. These vulnerabilities can range from common issues such as Cross-Site Scripting (XSS) and SQL Injection to more complex and less common vulnerabilities. 

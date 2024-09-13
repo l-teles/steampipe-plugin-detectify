@@ -36,7 +36,7 @@ connection "detectify" {
   # secret = "123"
 
   # The access secret for v3 API calls. Required.
-  # This can also be set via the `DETECTIFY_API_SECRET_V3` environment variable.
+  # This can also be set via the `DETECTIFY_API_TOKEN_V3` environment variable.
   # secret = "123"
 }
 ```
@@ -51,4 +51,79 @@ export DETECTIFY_API_TOKEN_V3=abc123
 ```
 
 Run a query:
-Coming soon...
+```sql
+SELECT
+    TO_CHAR(created_at, 'YYYY-MM-DD HH24:MI:SS') as "Creation Date",
+    DATE_PART('day', NOW() - created_at) AS "Days Open",
+    status as "Status",
+    cvss_scores -> 'cvss_3_1' ->> 'severity' as "Severity",
+    host as "Asset",
+    title as "Title",
+    CASE
+      WHEN source ->> 'value' = 'surface-monitoring' THEN 'EASM'
+      ELSE 'WebApp Scan'
+    END as "Source",
+    location as "URL",
+    definition ->> 'description' as "Description"
+from
+  detectify_finding
+where
+  status NOT IN ('accepted_risk','patched','false_positive')
+```
+
+```
++--------+-------------+---------------------+-----------------------------------------------+-------------+----------------------------------+
+| Status | Severity    | Asset               | Title                                         | Source      | URL                              |
++--------+-------------+---------------------+-----------------------------------------------+-------------+----------------------------------+
+| active | medium      | gateway.example.com | Express Stack Trace                           | EASM        | https://gateway.example.com/%ff  |
+| active | information | customer.example.com| Deprecated Security Header / X-XSS-Protection | WebApp Scan | https://customer.example.com/    |
++--------+-------------+---------------------+-----------------------------------------------+-------------+----------------------------------+
+```
+
+## Development
+
+Prerequisites:
+
+- [Steampipe](https://steampipe.io/downloads)
+- [Golang](https://golang.org/doc/install)
+
+Clone:
+
+```sh
+git clone https://github.com/l-teles/steampipe-plugin-detectify.git
+cd steampipe-plugin-detectify
+```
+
+Build, which automatically installs the new version to your `~/.steampipe/plugins` directory:
+
+```
+make
+```
+
+Configure the plugin:
+
+```
+cp config/* ~/.steampipe/config
+vi ~/.steampipe/config/detectify.spc
+```
+
+Try it!
+
+```
+steampipe query
+> .inspect detectify
+```
+
+Further reading:
+
+- [Writing plugins](https://steampipe.io/docs/develop/writing-plugins)
+- [Writing your first table](https://steampipe.io/docs/develop/writing-your-first-table)
+
+## Contributing
+
+Please see the [contribution guidelines](https://github.com/turbot/steampipe/blob/main/CONTRIBUTING.md) and our [code of conduct](https://github.com/turbot/steampipe/blob/main/CODE_OF_CONDUCT.md). All contributions are subject to the [Apache 2.0 open source license](https://github.com/l-teles/steampipe-plugin-detectify/blob/main/LICENSE).
+
+`help wanted` issues:
+
+- [Steampipe](https://github.com/turbot/steampipe/labels/help%20wanted)
+- [Detectify Plugin](https://github.com/l-teles/steampipe-plugin-detectify/labels/help%20wanted)

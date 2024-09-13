@@ -8,8 +8,8 @@ import (
 type detectifyConfig struct {
 	BaseUrl *string `cty:"base_url"`
 	Token   *string `cty:"token"`
-	Secret   *string `cty:"secret"`
-	Tokenv3   *string `cty:"token"`
+	Secret  *string `cty:"secret"`
+	Tokenv3 *string `cty:"tokenv3"`
 }
 
 var ConfigSchema = map[string]*schema.Attribute{

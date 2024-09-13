@@ -1,6 +1,6 @@
 # Table: detectify_ip
 
-The `detectify_ip` table contains information about IP addresses monitored and scanned for vulnerabilities by Detectify.
+This table contains information about IP addresses monitored and scanned for vulnerabilities by Detectify.
 
 ## Examples
 

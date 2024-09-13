@@ -1,6 +1,6 @@
 # Table: detectify_policy
 
-The `detectify_policy` table contains information about policies and the assets that are breaching those policies.
+This table contains information about policies and the assets that are breaching those policies.
 
 ## Examples
 

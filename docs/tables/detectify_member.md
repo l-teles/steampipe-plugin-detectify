@@ -1,6 +1,6 @@
 # Table: detectify_member
 
-The `detectify_member` table contains information about users who have access to the Detectify platform.
+This table contains information about users who have access to the Detectify platform.
 
 ## Examples
 

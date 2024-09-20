@@ -18,7 +18,7 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 		TableMap: map[string]*plugin.Table{
 			"detectify_asset":      tableAsset(ctx),
 			"detectify_asset_full": tableAssetFull(ctx),
-			"detectify_connector": tableConnector(ctx),
+			"detectify_connector":  tableConnector(ctx),
 			"detectify_finding":    tableFinding(ctx),
 			"detectify_ip":         tableIp(ctx),
 			"detectify_member":     tableMember(ctx),

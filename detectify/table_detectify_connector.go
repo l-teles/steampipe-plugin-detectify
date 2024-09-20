@@ -63,20 +63,20 @@ func listConnector(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 
 // ConnectorItem represents an individual Connector item.
 type ConnectorItem struct {
-    ID                string `json:"id"`
-    Name              string `json:"name"`
-    TeamToken         string `json:"team_token"`
-	LastRun			  LastRun `json:"last_run"`
-    Provider          string `json:"provider"`
-    CreatedAt         string `json:"created_at"`
-    UpdatedAt         string `json:"updated_at"`
+	ID        string  `json:"id"`
+	Name      string  `json:"name"`
+	TeamToken string  `json:"team_token"`
+	LastRun   LastRun `json:"last_run"`
+	Provider  string  `json:"provider"`
+	CreatedAt string  `json:"created_at"`
+	UpdatedAt string  `json:"updated_at"`
 }
 
 // LastRun represents the last run details of the connector.
 type LastRun struct {
-    Status      string `json:"status"`
-    Error       string `json:"error"`
-    CompletedAt string `json:"completed_at"`
+	Status      string `json:"status"`
+	Error       string `json:"error"`
+	CompletedAt string `json:"completed_at"`
 }
 
 // ConnectorResponse represents the response structure for ConnectorItem items.

@@ -1,10 +1,11 @@
-## v0.0.1 [2024-09-05]
+## v0.0.1 [2024-09-20]
 
 _What's new?_
 
 - New tables
-  - [detectify_asset_full](https://hub.steampipe.io/plugins/l-teles/steampipe-plugin-detectify/table_detectify_asset_full.go)
   - [detectify_asset](https://hub.steampipe.io/plugins/l-teles/steampipe-plugin-detectify/table_detectify_asset.go)
+  - [detectify_asset_full](https://hub.steampipe.io/plugins/l-teles/steampipe-plugin-detectify/table_detectify_asset_full.go)
+  - [detectify_connector](https://hub.steampipe.io/plugins/l-teles/steampipe-plugin-detectify/table_detectify_connector.go)
   - [detectify_finding](https://hub.steampipe.io/plugins/l-teles/steampipe-plugin-detectify/table_detectify_finding.go)
   - [detectify_ip](https://hub.steampipe.io/plugins/l-teles/steampipe-plugin-detectify/table_detectify_ip.go)
   - [detectify_member](https://hub.steampipe.io/plugins/l-teles/steampipe-plugin-detectify/table_detectify_member.go)

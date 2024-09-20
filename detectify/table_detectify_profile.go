@@ -22,7 +22,7 @@ func tableProfile(_ context.Context) *plugin.Table {
 			{Name: "endpoint", Type: proto.ColumnType_STRING, Description: "Endpoint of the profile."},
 			{Name: "created", Type: proto.ColumnType_TIMESTAMP, Description: "Timestamp when the profile was created."},
 			{Name: "token", Type: proto.ColumnType_STRING, Description: "Token associated with the profile."},
-			{Name: "latest_scan", Type: proto.ColumnType_JSON, Description: "Timestamp when the latest scan started."},
+			{Name: "latest_scan", Type: proto.ColumnType_JSON, Description: "Latest scan details"},
 			{Name: "status", Type: proto.ColumnType_STRING, Description: "Status of the profile."},
 		},
 	}

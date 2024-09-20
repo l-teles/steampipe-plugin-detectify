@@ -57,7 +57,7 @@ func listProfiles(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 // Custom Structs
 
-// PortItem represents an individual profile item.
+// ProfileItem represents an individual profile item.
 type ProfileItem struct {
 	Name       string     `json:"name"`
 	Endpoint   string     `json:"endpoint"`

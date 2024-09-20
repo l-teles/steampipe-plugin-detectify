@@ -58,6 +58,8 @@ func listMembers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 }
 
 // Custom Structs
+
+// MemberItem represents an individual member item.
 type MemberItem struct {
 	UserToken      string `json:"user_token"`
 	FirstName      string `json:"first_name"`

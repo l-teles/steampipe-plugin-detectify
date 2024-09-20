@@ -66,7 +66,7 @@ func listTechnologies(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 // Custom Structs
 
-// TechItem represents an individual IP item.
+// TechItem represents an individual technology item.
 type TechItem struct {
 	ID              string   `json:"id"`
 	AssetID         string   `json:"asset_id"`

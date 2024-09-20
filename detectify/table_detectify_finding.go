@@ -75,7 +75,7 @@ func listFindings(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	return allFindings, nil
 }
 
-// // Custom Structs
+// Custom Structs
 type Finding struct {
 	Version    string      `json:"version"`
 	UUID       string      `json:"uuid"`

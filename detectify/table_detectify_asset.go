@@ -8,7 +8,7 @@ import (
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 
-//// TABLE DEFINITION
+// TABLE DEFINITION
 
 func tableAsset(_ context.Context) *plugin.Table {
 	return &plugin.Table{
@@ -31,7 +31,7 @@ func tableAsset(_ context.Context) *plugin.Table {
 	}
 }
 
-// // LIST FUNCTION
+// LIST FUNCTION
 func listAssets(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	endpoint := "/v2/assets/"
 
@@ -61,7 +61,7 @@ func listAssets(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	return allFindings, nil
 }
 
-// // Custom Structs
+// Custom Structs
 type AssetItem struct {
 	Name       string   `json:"name"`
 	Status     string   `json:"status"`

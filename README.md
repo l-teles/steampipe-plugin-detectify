@@ -29,15 +29,15 @@ connection "detectify" {
 
   # The API token for API calls. Required.
   # This can also be set via the `DETECTIFY_API_TOKEN` environment variable.
-  # token = "abc123"
+  # token = "96d4y0631c31850v2g13e4rkqt50h1p8v"
 
   # The access secret for API calls. Required.
   # This can also be set via the `DETECTIFY_API_SECRET` environment variable.
-  # secret = "123"
+  # secret = "zl/0kt4gvFsV43PQuhNJjZ-XSSIJKakoYY2pTax05zaY="
 
   # The access secret for v3 API calls. Required.
   # This can also be set via the `DETECTIFY_API_TOKEN_V3` environment variable.
-  # secret = "123"
+  # tokenv3 = "3cd16594-z302-4lgz-113e-b3a36xy2lt99"
 }
 ```
 
@@ -52,23 +52,23 @@ export DETECTIFY_API_TOKEN_V3=abc123
 
 Run a query:
 ```sql
-SELECT
-    TO_CHAR(created_at, 'YYYY-MM-DD HH24:MI:SS') as "Creation Date",
-    DATE_PART('day', NOW() - created_at) AS "Days Open",
+  select
+    to_char(created_at, 'YYYY-MM-DD HH24:MI:SS') as "Creation Date",
+    date_part('day', NOW() - created_at) AS "Days Open",
     status as "Status",
     cvss_scores -> 'cvss_3_1' ->> 'severity' as "Severity",
     host as "Asset",
     title as "Title",
-    CASE
-      WHEN source ->> 'value' = 'surface-monitoring' THEN 'EASM'
-      ELSE 'WebApp Scan'
-    END as "Source",
+    case
+      when source ->> 'value' = 'surface-monitoring' then 'EASM'
+      else 'WebApp Scan'
+    end as "Source",
     location as "URL",
     definition ->> 'description' as "Description"
 from
   detectify_finding
 where
-  status NOT IN ('accepted_risk','patched','false_positive')
+  status not in ('accepted_risk','patched','false_positive');
 ```
 
 ```

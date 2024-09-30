@@ -52,9 +52,9 @@ export DETECTIFY_API_TOKEN_V3=abc123
 
 Run a query:
 ```sql
-SELECT
-    TO_CHAR(created_at, 'YYYY-MM-DD HH24:MI:SS') as "Creation Date",
-    DATE_PART('day', NOW() - created_at) AS "Days Open",
+  select
+    to_char(created_at, 'YYYY-MM-DD HH24:MI:SS') as "Creation Date",
+    date_part('day', NOW() - created_at) AS "Days Open",
     status as "Status",
     cvss_scores -> 'cvss_3_1' ->> 'severity' as "Severity",
     host as "Asset",

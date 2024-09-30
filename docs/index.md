@@ -19,23 +19,23 @@ og_image: "/images/plugins/l-teles/detectify-social-graphic.png"
 Query your open security vulnerabilities and filter by status:
 
 ```sql
-SELECT
-    TO_CHAR(created_at, 'YYYY-MM-DD HH24:MI:SS') as "Creation Date",
-    DATE_PART('day', NOW() - created_at) AS "Days Open",
+  select
+    to_char(created_at, 'YYYY-MM-DD HH24:MI:SS') as "Creation Date",
+    date_part('day', NOW() - created_at) AS "Days Open",
     status as "Status",
     cvss_scores -> 'cvss_3_1' ->> 'severity' as "Severity",
     host as "Asset",
     title as "Title",
-    CASE
-      WHEN source ->> 'value' = 'surface-monitoring' THEN 'EASM'
-      ELSE 'WebApp Scan'
-    END as "Source",
+    case
+      when source ->> 'value' = 'surface-monitoring' then 'EASM'
+      else 'WebApp Scan'
+    end as "Source",
     location as "URL",
     definition ->> 'description' as "Description"
 from
   detectify_finding
 where
-  status NOT IN ('accepted_risk','patched','false_positive')
+  status not in ('accepted_risk','patched','false_positive');
 ```
 
 ```

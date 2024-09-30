@@ -37,7 +37,7 @@ connection "detectify" {
 
   # The access secret for v3 API calls. Required.
   # This can also be set via the `DETECTIFY_API_TOKEN_V3` environment variable.
-  # secret = "123"
+  # tokenv3 = "123"
 }
 ```
 
@@ -59,16 +59,16 @@ Run a query:
     cvss_scores -> 'cvss_3_1' ->> 'severity' as "Severity",
     host as "Asset",
     title as "Title",
-    CASE
-      WHEN source ->> 'value' = 'surface-monitoring' THEN 'EASM'
-      ELSE 'WebApp Scan'
-    END as "Source",
+    case
+      when source ->> 'value' = 'surface-monitoring' then 'EASM'
+      else 'WebApp Scan'
+    end as "Source",
     location as "URL",
     definition ->> 'description' as "Description"
 from
   detectify_finding
 where
-  status NOT IN ('accepted_risk','patched','false_positive')
+  status not in ('accepted_risk','patched','false_positive');
 ```
 
 ```

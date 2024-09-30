@@ -1,5 +1,7 @@
+STEAMPIPE_INSTALL_DIR ?= ~/.steampipe
+BUILD_TAGS = netgo
 install:
-	go build -o ~/.steampipe/plugins/hub.steampipe.io/plugins/l-teles/detectify@latest/steampipe-plugin-detectify.plugin *.go
+	go build -o $(STEAMPIPE_INSTALL_DIR)/plugins/hub.steampipe.io/plugins/l-teles/detectify@latest/steampipe-plugin-detectify.plugin -tags "${BUILD_TAGS}" *.go
 	
 # LOCAL DEVELOPMENT
 # install:

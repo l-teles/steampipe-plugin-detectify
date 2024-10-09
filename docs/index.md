@@ -83,17 +83,17 @@ connection "detectify" {
 
   # The access secret for v3 API calls. Required.
   # This can also be set via the `DETECTIFY_API_TOKEN_V3` environment variable.
-  # tokenv3 = "3cd16594-z302-4lgz-113e-b3a36xy2lt99"
+  # token_v3 = "3cd16594-z302-4lgz-113e-b3a36xy2lt99"
 }
 ```
 
 - `token` - Required access token from Detectify - v2 of the API
 - `secret` - Required secret token from Detectify - v2 of the API. This needs to be enabled manually on Detectify after the key is created. (more info [here](<https://support.detectify.com/support/solutions/articles/48001061878-how-to-create-and-manage-api-keys#:~:text=You%20can%20also%20enable%20if%20a%20message%20signature%20(based%20on%20secret%20key)%20should%20be%20required.>))
-- `tokenv3` - Required access token from Detectify - v3 of the API
+- `token_v3` - Required access token from Detectify - v3 of the API
 
 > ℹ️ Currently, one token per API version is required, since both API versions make different information available.
 
-Alternatively, you can also use environment variables to obtain credentials only if other arguments (base_url, token and tokenv3) are not specified in the connection:
+Alternatively, you can also use environment variables to obtain credentials only if other arguments (base_url, token and token_v3) are not specified in the connection:
 
 ```sh
 export DETECTIFY_URL="https://api.detectify.com/rest"

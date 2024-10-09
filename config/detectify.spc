@@ -15,5 +15,5 @@ connection "detectify" {
 
   # The access secret for v3 API calls. Required.
   # This can also be set via the `DETECTIFY_API_TOKEN_V3` environment variable.
-  # tokenv3 = "3cd16594-z302-4lgz-113e-b3a36xy2lt99"
+  # token_v3 = "3cd16594-z302-4lgz-113e-b3a36xy2lt99"
 }

@@ -2,7 +2,7 @@
 
 This table contains information about open ports and their associated assets monitored by Detectify.
 
-> The `tokenv3` argument is required to use this table, meaning you need to create an API key for v3 on Detectify.
+> The `token_v3` argument is required to use this table, meaning you need to create an API key for v3 on Detectify.
 
 ## Examples
 
@@ -10,7 +10,7 @@ This table contains information about open ports and their associated assets mon
 
 ```sql
 select
-  domain_name,  
+  domain_name,
   ip_address,
   port,
   status
@@ -22,7 +22,7 @@ from
 
 ```sql
 select
-  domain_name,  
+  domain_name,
   ip_address,
   port,
   status

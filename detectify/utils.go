@@ -27,7 +27,7 @@ func signRequest(detectifyAPISecret, detectifyAPIToken, method, relativeURL, tim
 }
 
 func connect(ctx context.Context, d *plugin.QueryData, endpoint string, params map[string]string) (string, error) {
-	var baseUrl, token, secret, tokenv3 string
+	var baseUrl, token, secret, token_v3 string
 
 	// Prefer config options given in Steampipe
 	detectifyConfig := GetConfig(d.Connection)
@@ -42,9 +42,9 @@ func connect(ctx context.Context, d *plugin.QueryData, endpoint string, params m
 		token = *detectifyConfig.Token
 	}
 
-	tokenv3 = os.Getenv("DETECTIFY_API_TOKEN_V3")
-	if detectifyConfig.Tokenv3 != nil {
-		tokenv3 = *detectifyConfig.Tokenv3
+	token_v3 = os.Getenv("DETECTIFY_API_TOKEN_V3")
+	if detectifyConfig.Token_v3 != nil {
+		token_v3 = *detectifyConfig.Token_v3
 	}
 
 	secret = os.Getenv("DETECTIFY_API_SECRET")
@@ -64,8 +64,8 @@ func connect(ctx context.Context, d *plugin.QueryData, endpoint string, params m
 		return "", errors.New("'token' must be set in the connection configuration. Edit your connection configuration file and then restart Steampipe")
 	}
 
-	if tokenv3 == "" {
-		return "", errors.New("'tokenv3' must be set in the connection configuration. Edit your connection configuration file and then restart Steampipe")
+	if token_v3 == "" {
+		return "", errors.New("'token_v3' must be set in the connection configuration. Edit your connection configuration file and then restart Steampipe")
 	}
 
 	timestamp := fmt.Sprintf("%d", time.Now().Unix())
@@ -174,7 +174,7 @@ func paginatedResponse(ctx context.Context, d *plugin.QueryData, endpoint string
 }
 
 func connectV3(ctx context.Context, d *plugin.QueryData, endpoint string, params map[string]string) (string, error) {
-	var baseUrl, tokenv3 string
+	var baseUrl, token_v3 string
 
 	// Prefer config options given in Steampipe
 	detectifyConfig := GetConfig(d.Connection)
@@ -184,9 +184,9 @@ func connectV3(ctx context.Context, d *plugin.QueryData, endpoint string, params
 		baseUrl = *detectifyConfig.BaseUrl
 	}
 
-	tokenv3 = os.Getenv("DETECTIFY_API_TOKEN_V3")
-	if detectifyConfig.Tokenv3 != nil {
-		tokenv3 = *detectifyConfig.Tokenv3
+	token_v3 = os.Getenv("DETECTIFY_API_TOKEN_V3")
+	if detectifyConfig.Token_v3 != nil {
+		token_v3 = *detectifyConfig.Token_v3
 	}
 
 	// Create a new HTTP client
@@ -200,7 +200,7 @@ func connectV3(ctx context.Context, d *plugin.QueryData, endpoint string, params
 
 	// Set the necessary request headers
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", tokenv3)
+	req.Header.Set("Authorization", token_v3)
 
 	// Set query parameters
 	queryParams := req.URL.Query()

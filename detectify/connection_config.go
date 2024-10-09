@@ -6,10 +6,10 @@ import (
 )
 
 type detectifyConfig struct {
-	BaseUrl *string `cty:"base_url"`
-	Token   *string `cty:"token"`
-	Secret  *string `cty:"secret"`
-	Tokenv3 *string `cty:"tokenv3"`
+	BaseUrl  *string `cty:"base_url"`
+	Token    *string `cty:"token"`
+	Secret   *string `cty:"secret"`
+	Token_v3 *string `cty:"token_v3"`
 }
 
 var ConfigSchema = map[string]*schema.Attribute{
@@ -22,7 +22,7 @@ var ConfigSchema = map[string]*schema.Attribute{
 	"secret": {
 		Type: schema.TypeString,
 	},
-	"tokenv3": {
+	"token_v3": {
 		Type: schema.TypeString,
 	},
 }

@@ -2,7 +2,7 @@
 
 This table contains information about policies and the assets that are breaching those policies.
 
-> The `tokenv3` argument is required to use this table, meaning you need to create an API key for v3 on Detectify.
+> The `token_v3` argument is required to use this table, meaning you need to create an API key for v3 on Detectify.
 
 ## Examples
 
@@ -10,7 +10,7 @@ This table contains information about policies and the assets that are breaching
 
 ```sql
 select
-  policy_name,  
+  policy_name,
   asset_name,
   severity,
   active,
@@ -23,7 +23,7 @@ from
 
 ```sql
 select
-  policy_name,  
+  policy_name,
   asset_name,
   severity,
   active,

@@ -13,7 +13,7 @@ Use SQL to query your security vulnerabilities from [Detectify](https://detectif
 
 Install the plugin with [Steampipe](https://steampipe.io):
 
-```shell
+```sh
 steampipe plugin install l-teles/detectify
 ```
 
@@ -43,29 +43,29 @@ connection "detectify" {
 
 Or through environment variables:
 
-```shell
-export DETECTIFY_URL=https://api.detectify.com/rest
-export DETECTIFY_API_TOKEN=abc123
-export DETECTIFY_API_SECRET=123
-export DETECTIFY_API_TOKEN_V3=abc123
+```sh
+export DETECTIFY_URL="https://api.detectify.com/rest"
+export DETECTIFY_API_TOKEN="96d4y0631c31850v2g13e4rkqt50h1p8v"
+export DETECTIFY_API_SECRET="zl/0kt4gvFsV43PQuhNJjZ-XSSIJKakoYY2pTax05zaY="
+export DETECTIFY_API_TOKEN_V3="3cd16594-z302-4lgz-113e-b3a36xy2lt99"
 ```
 
 Run a query:
 
 ```sql
-  select
-    to_char(created_at, 'YYYY-MM-DD HH24:MI:SS') as "Creation Date",
-    date_part('day', NOW() - created_at) AS "Days Open",
-    status as "Status",
-    cvss_scores -> 'cvss_3_1' ->> 'severity' as "Severity",
-    host as "Asset",
-    title as "Title",
-    case
-      when source ->> 'value' = 'surface-monitoring' then 'EASM'
-      else 'WebApp Scan'
-    end as "Source",
-    location as "URL",
-    definition ->> 'description' as "Description"
+select
+  to_char(created_at, 'YYYY-MM-DD HH24:MI:SS') as "Creation Date",
+  date_part('day', NOW() - created_at) AS "Days Open",
+  status as "Status",
+  cvss_scores -> 'cvss_3_1' ->> 'severity' as "Severity",
+  host as "Asset",
+  title as "Title",
+  case
+    when source ->> 'value' = 'surface-monitoring' then 'EASM'
+    else 'WebApp Scan'
+  end as "Source",
+  location as "URL",
+  definition ->> 'description' as "Description"
 from
   detectify_finding
 where

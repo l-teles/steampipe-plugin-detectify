@@ -2,6 +2,8 @@
 
 This table contains information about the technologies detected for each asset monitored by Detectify.
 
+> The `tokenv3` argument is required to use this table, meaning you need to create an API key for v3 on Detectify.
+
 ## Examples
 
 ### List all technologies

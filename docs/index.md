@@ -19,19 +19,19 @@ og_image: "/images/plugins/l-teles/detectify-social-graphic.png"
 Query your open security vulnerabilities and filter by status:
 
 ```sql
-  select
-    to_char(created_at, 'YYYY-MM-DD HH24:MI:SS') as "Creation Date",
-    date_part('day', NOW() - created_at) AS "Days Open",
-    status as "Status",
-    cvss_scores -> 'cvss_3_1' ->> 'severity' as "Severity",
-    host as "Asset",
-    title as "Title",
-    case
-      when source ->> 'value' = 'surface-monitoring' then 'EASM'
-      else 'WebApp Scan'
-    end as "Source",
-    location as "URL",
-    definition ->> 'description' as "Description"
+select
+  to_char(created_at, 'YYYY-MM-DD HH24:MI:SS') as "Creation Date",
+  date_part('day', NOW() - created_at) AS "Days Open",
+  status as "Status",
+  cvss_scores -> 'cvss_3_1' ->> 'severity' as "Severity",
+  host as "Asset",
+  title as "Title",
+  case
+    when source ->> 'value' = 'surface-monitoring' then 'EASM'
+    else 'WebApp Scan'
+  end as "Source",
+  location as "URL",
+  definition ->> 'description' as "Description"
 from
   detectify_finding
 where
@@ -75,15 +75,15 @@ connection "detectify" {
 
   # The API token for API calls. Required.
   # This can also be set via the `DETECTIFY_API_TOKEN` environment variable.
-  # token = "abc123"
+  # token = "96d4y0631c31850v2g13e4rkqt50h1p8v"
 
   # The access secret for API calls. Required.
   # This can also be set via the `DETECTIFY_API_SECRET` environment variable.
-  # secret = "j1/1a2b3c="
+  # secret = "zl/0kt4gvFsV43PQuhNJjZ-XSSIJKakoYY2pTax05zaY="
 
   # The access secret for v3 API calls. Required.
   # This can also be set via the `DETECTIFY_API_TOKEN_V3` environment variable.
-  # tokenv3 = "abc123"
+  # tokenv3 = "3cd16594-z302-4lgz-113e-b3a36xy2lt99"
 }
 ```
 
@@ -95,11 +95,11 @@ connection "detectify" {
 
 Alternatively, you can also use environment variables to obtain credentials only if other arguments (base_url, token and tokenv3) are not specified in the connection:
 
-```
+```sh
 export DETECTIFY_URL="https://api.detectify.com/rest"
-export DETECTIFY_API_TOKEN="45f86adc2nv54efd76151530rr629fc8953c2a111111fd74fa7d361d70e55759"
-export DETECTIFY_API_SECRET="j1/1a2b3c="
-export DETECTIFY_API_TOKEN_V3="abc123"
+export DETECTIFY_API_TOKEN="96d4y0631c31850v2g13e4rkqt50h1p8v"
+export DETECTIFY_API_SECRET="zl/0kt4gvFsV43PQuhNJjZ-XSSIJKakoYY2pTax05zaY="
+export DETECTIFY_API_TOKEN_V3="3cd16594-z302-4lgz-113e-b3a36xy2lt99"
 ```
 
 ## Get involved

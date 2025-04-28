@@ -1,3 +1,12 @@
+## v0.0.2 [2025-04-28]
+_What's Changed_
+* Delete unnecessary workflows by @l-teles in https://github.com/l-teles/steampipe-plugin-detectify/pull/7
+* Bump github.com/turbot/steampipe-plugin-sdk/v5 from 5.10.4 to 5.11.0 by @dependabot in https://github.com/l-teles/steampipe-plugin-detectify/pull/8
+* Bump github.com/turbot/steampipe-plugin-sdk/v5 from 5.11.0 to 5.11.5 by @dependabot in https://github.com/l-teles/steampipe-plugin-detectify/pull/13
+
+## New Contributors
+* @dependabot made their first contribution in https://github.com/l-teles/steampipe-plugin-detectify/pull/8
+
 ## v0.0.1 [2024-09-20]
 
 _What's new?_

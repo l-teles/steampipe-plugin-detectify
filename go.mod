@@ -1,10 +1,10 @@
 module github.com/l-teles/steampipe-plugin-detectify
 
-go 1.23.1
+go 1.24
 
 toolchain go1.24.2
 
-require github.com/turbot/steampipe-plugin-sdk/v5 v5.12.0
+require github.com/turbot/steampipe-plugin-sdk/v5 v5.13.0
 
 require (
 	cloud.google.com/go v0.112.1 // indirect

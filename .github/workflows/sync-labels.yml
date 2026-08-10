@@ -7,5 +7,3 @@ on:
 jobs:
   sync_labels_workflow:
     uses: turbot/steampipe-workflows/.github/workflows/sync-labels.yml@main
-    secrets:
-      SECURITY_API_TOKEN: ${{ secrets.SECURITY_API_TOKEN }}

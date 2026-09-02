@@ -1,6 +1,25 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
+  "extends": ["config:recommended"],
+  "labels": ["dependencies"],
+  "assignees": ["l-teles"],
+  "packageRules": [
+    {
+      "matchManagers": ["gomod"],
+      "matchDepTypes": ["require", "indirect"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "go-dependencies"
+    },
+    {
+      "matchManagers": ["gomod"],
+      "matchDepTypes": ["toolchain"],
+      "separateMinorPatch": true,
+      "description": "Left ungrouped so a Go stdlib security patch merges as its own PR, independent of regular dependency bumps."
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "github-actions"
+    }
   ]
 }

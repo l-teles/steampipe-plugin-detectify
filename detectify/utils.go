@@ -102,7 +102,7 @@ func connect(ctx context.Context, d *plugin.QueryData, endpoint string, params m
 	}
 	defer func() {
 		if closeErr := resp.Body.Close(); closeErr != nil {
-			plugin.Logger(ctx).Error("Failed to close response body: %v", closeErr)
+			plugin.Logger(ctx).Error("Failed to close response body", "error", closeErr)
 		}
 	}()
 
@@ -221,7 +221,7 @@ func connectV3(ctx context.Context, d *plugin.QueryData, endpoint string, params
 	}
 	defer func() {
 		if closeErr := resp.Body.Close(); closeErr != nil {
-			plugin.Logger(ctx).Error("Failed to close response body: %v", closeErr)
+			plugin.Logger(ctx).Error("Failed to close response body", "error", closeErr)
 		}
 	}()
 

@@ -100,7 +100,11 @@ func connect(ctx context.Context, d *plugin.QueryData, endpoint string, params m
 		plugin.Logger(ctx).Error("Failed to execute request: %v", err)
 		return "", err
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if closeErr := resp.Body.Close(); closeErr != nil {
+			plugin.Logger(ctx).Error("Failed to close response body", "error", closeErr)
+		}
+	}()
 
 	// Check the response status code
 	if resp.StatusCode != 200 {
@@ -215,7 +219,11 @@ func connectV3(ctx context.Context, d *plugin.QueryData, endpoint string, params
 		plugin.Logger(ctx).Error("Failed to create request: %v", err)
 		return "", fmt.Errorf("failed to execute request: %v", err)
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if closeErr := resp.Body.Close(); closeErr != nil {
+			plugin.Logger(ctx).Error("Failed to close response body", "error", closeErr)
+		}
+	}()
 
 	// Check the response status code
 	if resp.StatusCode != 200 {

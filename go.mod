@@ -1,6 +1,6 @@
 module github.com/l-teles/steampipe-plugin-detectify
 
-go 1.26.5
+go 1.26.10
 
 require github.com/turbot/steampipe-plugin-sdk/v5 v5.14.1
 
